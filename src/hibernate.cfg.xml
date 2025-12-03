@@ -9,5 +9,11 @@
         <property name="hbm2ddl.auto">create</property>
         <property name="hibernate.dialect.storage_engine">innodb</property>
         <property name="hibernate.show_sql">true</property>
+
+        <!-- mapping de las clases -->
+        <mapping class = "Entidades.Libro"/>
+        <mapping class = "Entidades.Autor"/>
+        <mapping class = "Entidades.Telefono"/>
+
     </session-factory>
 </hibernate-configuration>
