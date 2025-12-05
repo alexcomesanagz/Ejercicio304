@@ -11,40 +11,76 @@ public class Main {
 
         Session session = HibernateUtil.get().openSession();
 
-        int opcion;
-        do {
-            showMenuGeneral();
-            opcion =Integer.parseInt(sc.nextLine());
-
-            switch (opcion) {
-                case 1 -> MenuInsercion();
-//                case 2 ->
-//                    case 3 ->
-//                        default ->
-            }
-        }while(opcion!=0);
+        mostrarMenu();
 
         session.close();
         System.out.println("Finalizando la conexion a MySQL");
     }
 
-    private static void showMenuGeneral(){
-        System.out.println("--- SELECCIONE UNA DE LAS SIGUIENTES OPCIONES ---");
-        System.out.println("1. Insección de una nueva fila.");
-        System.out.println("2. Borrado de filas.");
-        System.out.println("3. Consultar.");
-        System.out.println("0. Salir.");
-        System.out.println("-------------------------------------------------");
+    public static void mostrarMenu() {
+        int opcion = -1;
+        do {
+            System.out.println("\n1. Insertar nueva fila\n2. Borrar fila\n3. Consultar\n4. Salir");
+            opcion = sc.nextInt();
+            switch (opcion) {
+                case 1: {
+                    mostrarMenuInsertar();
+                    break;
+                }
+                case 2:{
+                    //mostrarMenuBorrar();
+                    break;
+                }
+                case 3:{
+                    //mostrarMenuConsultas();
+                    break;
+                }
+                case 4:{
+                    System.exit(0);
+                    break;
+                }
+            }
+        }while(opcion != 4);
     }
 
-    private static void MenuInsercion(){
-        System.out.println("--- SELECCIONE UNA DE LAS SIGUIENTES OPCIONES ---");
-        System.out.println("1. Inserción de nuevo autor.");
-        System.out.println("2. Inserción de nuevo libro.");
-        System.out.println("3. Consultar.");
-        System.out.println("4. Consultar.");
-        System.out.println("0. Salir.");
-        System.out.println("-------------------------------------------------");
+    public static void mostrarMenuInsertar() {
+        int opcion = -1;
+        do {
+            System.out.println("\n1. Insertar nuevo autor\n2. Insertar nuevo libro\n3. Enlazar autor-libro\n4. Insertar teléfono para un autor\n4. Atrás");
+            opcion = sc.nextInt();
+            switch (opcion) {
+                case 1: {
+                    //insertarAutor(false);
+                    break;
+                }
+                case 2:{
+                    //insertarLibro(false);
+                    break;
+                }
+                case 3:{
+                    //enlazarAutorLibro();
+                    break;
+                }
+                case 4:{
+                    //insertarTelefonoAutor();
+                    break;
+                }
+                case 5:{
+                    break;
+                }
+            }
+        }while(opcion < 1 || opcion > 5);
+    }
+
+
+    public static String pedirString(String mensaje) {
+        System.out.println(mensaje);
+        return sc.next();
+    }
+
+    public int pedirInt(String mensaje) {
+        System.out.println(mensaje);
+        return sc.nextInt();
     }
 
 }
