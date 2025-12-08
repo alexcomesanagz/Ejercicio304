@@ -1,10 +1,7 @@
 package Entidades;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "Telefonos")
@@ -20,6 +17,7 @@ public class Telefono {
     private Autor autor;
 
     @Column(name = "numeroTf")
+    @NonNull
     private int numeroTf;
 
 }

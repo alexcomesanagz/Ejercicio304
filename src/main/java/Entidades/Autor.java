@@ -1,10 +1,7 @@
 package Entidades;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -17,10 +14,13 @@ import java.util.List;
 public class Autor {
     @Id
     @Column(name = "dniAutor")
+    @NonNull
     private String dniAutor;
     @Column(name = "nombreAutor")
+    @NonNull
     private String nombreAutor;
     @Column(name = "nacionalidad")
+    @NonNull
     private String nacionalidad;
 
     @OneToOne(mappedBy = "autor")

@@ -1,3 +1,9 @@
+import Entidades.Autor;
+import Entidades.Libro;
+import Entidades.Telefono;
+import Repositorios.RepoAutor;
+import Repositorios.RepoLibro;
+import Repositorios.RepoTelefono;
 import org.hibernate.Session;
 
 import java.util.Scanner;
@@ -5,6 +11,9 @@ import java.util.Scanner;
 public class Main {
 
     private static Scanner sc;
+    private static RepoAutor repoAutor;
+    private static RepoLibro repoLibro;
+    private static RepoTelefono repoTelefono;
 
     public static void main(String[] args) {
         System.out.println("Test");
@@ -28,7 +37,7 @@ public class Main {
                     break;
                 }
                 case 2:{
-                    //mostrarMenuBorrar();
+                    mostrarMenuBorrar();
                     break;
                 }
                 case 3:{
@@ -50,19 +59,19 @@ public class Main {
             opcion = sc.nextInt();
             switch (opcion) {
                 case 1: {
-                    //insertarAutor(false);
+                    insertarAutor();
                     break;
                 }
                 case 2:{
-                    //insertarLibro(false);
+                    insertarLibro();
                     break;
                 }
                 case 3:{
-                    //enlazarAutorLibro();
+                    enlazarAutorLibro();
                     break;
                 }
                 case 4:{
-                    //insertarTelefonoAutor();
+                    insertarTelefonoAutor();
                     break;
                 }
                 case 5:{
@@ -72,15 +81,82 @@ public class Main {
         }while(opcion < 1 || opcion > 5);
     }
 
+    private static void insertarTelefonoAutor() {
+        String dni = pedirString("Introduce el dni del usuario al que le quieras insertar el telefono: ");
+        int numtlf = pedirInt("Introduce el número de telefono que deseas insertar al usuario: ");
+
+        Telefono telefono = new Telefono(numtlf);
+        Autor autor = repoAutor.consultarPorString(dni);
+
+        autor.setTelefono(telefono);
+
+        repoAutor.actualizar(autor);
+        repoTelefono.insertarUno(telefono);
+    }
+
+    private static void enlazarAutorLibro() {
+        String dni = pedirString("DNI del autor a enlazar: ");
+        String titulo = pedirString("Titulo del libro a enlazar: ");
+
+        Autor autor = repoAutor.consultarPorString(dni);
+        Libro libro = repoLibro.consultarPorString(titulo);
+
+        libro.addListaAutores(autor);
+        repoAutor.actualizar(autor);
+        repoLibro.actualizar(libro);
+    }
+
+    private static void insertarLibro() {
+        String titulo = pedirString("Titulo del libro a insertar: ");
+        System.out.println("Precio del libro a insertar: ");
+        Double precio = Double.parseDouble(sc.nextLine());
+
+        Libro libro = new Libro(titulo, precio);
+        repoLibro.insertarUno(libro);
+    }
+
+    private static void insertarAutor() {
+        String dni = pedirString("DNI del autor a insertar: ");
+        String nombre = pedirString("Nombre del autor a insertar: ");
+        String nacionalidad = pedirString("Nacionalidad del autor a insertar: ");
+        Autor autor = new Autor(dni, nombre, nacionalidad);
+        repoAutor.insertarUno(autor);
+    }
 
     public static String pedirString(String mensaje) {
         System.out.println(mensaje);
         return sc.next();
     }
 
-    public int pedirInt(String mensaje) {
+    public static int pedirInt(String mensaje) {
         System.out.println(mensaje);
         return sc.nextInt();
+    }
+
+    public static void mostrarMenuBorrar() {
+
+        int opcion = -1;
+        do {
+            System.out.println("\n1. Borrar autor\n2. Borar libro\n3. Atrás");
+            opcion = sc.nextInt();
+            switch (opcion) {
+                case 1: {
+                    String dni = pedirString("Introduzca el DNI del autor");
+                    Autor autor = repoAutor.consultarPorString(dni);
+                    repoAutor.borrar(autor);
+                    break;
+                }
+                case 2:{
+                    String titulo = pedirString("Introduzca el título del libro");
+                    Libro libro = repoLibro.consultarPorString(titulo);
+                    repoLibro.borrar(libro);
+                    break;
+                }
+                case 3:{
+                    break;
+                }
+            }
+        }while(opcion < 1 || opcion > 3);
     }
 
 }
