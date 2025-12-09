@@ -31,7 +31,9 @@ public class RepoLibro implements Repositorio<Libro>{
 
     @Override
     public List<Libro> encontrarTodos() {
-        return List.of();
+        Query query = sesion.createQuery("SELECT l FROM Libro l");
+        List<Libro> libros = query.getResultList();
+        return libros;
     }
 
     @Override

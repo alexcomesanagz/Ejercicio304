@@ -10,6 +10,10 @@ public class RepoTelefono implements Repositorio<Telefono>{
 
     private Session sesion;
 
+    public RepoTelefono(Session sesion){
+        this.sesion = sesion;
+    }
+
     @Override
     public void insertarUno(Telefono telefono) {
         Transaction trx = sesion.beginTransaction();

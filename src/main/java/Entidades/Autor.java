@@ -38,4 +38,9 @@ public class Autor {
     @ManyToMany(mappedBy = "listaAutores")
     private List<Libro> listaLibros;
 
+    @Override
+    public String toString(){
+        return "{DNI: " + dniAutor + ", Nombre: " + nombreAutor + ", Nacionalidad: " + nacionalidad + "}";
+    }
+
 }

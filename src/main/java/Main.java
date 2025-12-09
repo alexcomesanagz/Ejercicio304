@@ -6,6 +6,7 @@ import Repositorios.RepoLibro;
 import Repositorios.RepoTelefono;
 import org.hibernate.Session;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -18,7 +19,13 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Test");
 
+        sc = new Scanner(System.in);
+
         Session session = HibernateUtil.get().openSession();
+
+        repoAutor = new RepoAutor(session);
+        repoLibro = new RepoLibro(session);
+        repoTelefono = new RepoTelefono(session);
 
         mostrarMenu();
 
@@ -30,7 +37,7 @@ public class Main {
         int opcion = -1;
         do {
             System.out.println("\n1. Insertar nueva fila\n2. Borrar fila\n3. Consultar\n4. Salir");
-            opcion = sc.nextInt();
+            opcion = Integer.parseInt(sc.nextLine());
             switch (opcion) {
                 case 1: {
                     mostrarMenuInsertar();
@@ -41,7 +48,7 @@ public class Main {
                     break;
                 }
                 case 3:{
-                    //mostrarMenuConsultas();
+                    mostrarMenuConsultas();
                     break;
                 }
                 case 4:{
@@ -56,7 +63,7 @@ public class Main {
         int opcion = -1;
         do {
             System.out.println("\n1. Insertar nuevo autor\n2. Insertar nuevo libro\n3. Enlazar autor-libro\n4. Insertar teléfono para un autor\n4. Atrás");
-            opcion = sc.nextInt();
+            opcion = Integer.parseInt(sc.nextLine());
             switch (opcion) {
                 case 1: {
                     insertarAutor();
@@ -138,7 +145,7 @@ public class Main {
         int opcion = -1;
         do {
             System.out.println("\n1. Borrar autor\n2. Borar libro\n3. Atrás");
-            opcion = sc.nextInt();
+            opcion = Integer.parseInt(sc.nextLine());
             switch (opcion) {
                 case 1: {
                     String dni = pedirString("Introduzca el DNI del autor");
@@ -157,6 +164,49 @@ public class Main {
                 }
             }
         }while(opcion < 1 || opcion > 3);
+    }
+
+    public static void mostrarMenuConsultas() {
+        System.out.println("\n1. Visualizar datos de un libro a partir del título\n2. Visualizar libros de un determinado autor\n3. Visualizar todos los libros\n4. Visualizar todos los autores y sus libros\n5. Atrás");
+        int opcion = -1;
+        do {
+            opcion = Integer.parseInt(sc.nextLine());
+            switch (opcion) {
+                case 1: {
+                    String titulo = pedirString("Introduzca el título de un libro");
+                    Libro libro = repoLibro.consultarPorString(titulo);
+                    System.out.println(libro.toString());
+                    break;
+                }
+                case 2:{
+                    String DNI = pedirString("Introduzca el DNI del autor");
+                    Autor autor = repoAutor.consultarPorString(DNI);
+                    for(Libro libro : autor.getListaLibros())
+                        System.out.println(libro.toString());
+                    break;
+                }
+                case 3:{
+                    List<Libro> listaLibros = repoLibro.encontrarTodos();
+                    for(Libro libro : listaLibros)
+                        System.out.println(libro.toString());
+                    break;
+                }
+                case 4:{
+                    List<Autor> listaAutores = repoAutor.encontrarTodos();
+                    for (Autor autor : listaAutores) {
+                        System.out.println(autor.toString() + "\nLibros:");
+                        for(Libro libro : autor.getListaLibros()) {
+                            System.out.println(libro.toString());
+                        }
+                    }
+                    break;
+                }
+                case 5:{
+                    mostrarMenu();
+                    break;
+                }
+            }
+        }while(opcion < 1 || opcion > 5);
     }
 
 }

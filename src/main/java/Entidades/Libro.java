@@ -37,4 +37,8 @@ public class Libro {
         autor.addLibro(this);
     }
 
+    @Override
+    public String toString(){
+        return "{ID: " + idLibro + ", Titulo: " + titulo + ", Precio: " + precio + "}";
+    }
 }

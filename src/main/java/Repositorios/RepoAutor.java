@@ -31,7 +31,9 @@ public class RepoAutor implements Repositorio<Autor>{
 
     @Override
     public List<Autor> encontrarTodos() {
-        return List.of();
+        Query query = sesion.createQuery("SELECT a FROM Autores a");
+        List<Autor> autores = query.getResultList();
+        return autores;
     }
 
     @Override
